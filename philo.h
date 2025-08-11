@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/11 10:11:16 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/11 13:37:21 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <limits.h>
 # include <pthread.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
@@ -59,5 +60,7 @@ void				init_philos(t_data *data);
 long				get_time_ms(void);
 long				elapsed_time(long start_ms);
 void				ft_usleep(long duration_ms, t_data *data);
+void				print_action(t_philo *philo, const char *action);
+void				eat(t_philo *philo);
 
 #endif

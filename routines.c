@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:08:42 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/11 10:17:29 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/11 13:37:39 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void *monitor_routine(void *arg)
         pthread_mutex_unlock(&data->state_mutex);
 
         all_full = 1;
-        current_time = get_elapsed_time_ms(data->start_time);
+        current_time = elapsed_time(data->start_time);
         i = 0;
         while (i < data->config.nbr_philos)
         {
@@ -81,21 +81,14 @@ void *philo_routine(void *arg)
         }
         pthread_mutex_unlock(&data->state_mutex);
         take_forks(philo);
-        pthread_mutex_lock(&data->print_mutex);
-        printf("%ld %d is eating\n", get_elapsed_time_ms(data->start_time), philo->id);
-        pthread_mutex_unlock(&data->print_mutex);
-        pthread_mutex_lock(&data->state_mutex);
-        philo->last_meal_time = get_elapsed_time_ms(data->start_time);
-        philo->meals_eaten++;
-        pthread_mutex_unlock(&data->state_mutex);
-        ft_usleep(data->config.time_to_eat, data);
+        eat(philo);
         release_forks(philo);
         pthread_mutex_lock(&data->print_mutex);
-        printf("%ld %d is sleeping\n", get_elapsed_time_ms(data->start_time), philo->id);
+        printf("%ld %d is sleeping\n", elapsed_time(data->start_time), philo->id);
         pthread_mutex_unlock(&data->print_mutex);
         ft_usleep(data->config.time_to_sleep, data);
         pthread_mutex_lock(&data->print_mutex);
-        printf("%ld %d is thinking\n", get_elapsed_time_ms(data->start_time), philo->id);
+        printf("%ld %d is thinking\n", elapsed_time(data->start_time), philo->id);
         pthread_mutex_unlock(&data->print_mutex);
     }
     return NULL;

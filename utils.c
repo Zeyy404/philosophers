@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:17:52 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/11 10:20:02 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/11 12:52:00 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,12 @@ void	ft_usleep(long duration_ms, t_data *data)
 			break ;
 		usleep(500);
 	}
+}
+
+void print_action(t_philo *philo, const char *action)
+{
+    pthread_mutex_lock(&philo->data->print_mutex);
+    if (!philo->data->stop_simulation)
+        printf("%lld %d %s\n", get_timestamp(), philo->id, action);
+    pthread_mutex_unlock(&philo->data->print_mutex);
 }

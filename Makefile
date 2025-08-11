@@ -3,7 +3,7 @@ CFLAGS:= -Wall -Werror -Wextra
 NAME:= philo
 NAME_BONUS := philo_bonus
 
-SRCS:= philo.c
+SRCS:= philo.c parse.c inits.c routines.c utils.c
 
 OBJS:= $(SRCS:.c=.o)
 
@@ -26,7 +26,7 @@ debug: CFLAGS += -fsanitize=address -ggdb3
 debug: all
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -pthread
 
 clean:
 	rm -rf $(OBJS)
