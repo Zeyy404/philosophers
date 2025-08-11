@@ -3,85 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:13:36 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/06 20:15:32 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/11 10:13:19 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	handle_overflow(long result, int sign, int *error)
+int main(int ac, char **av)
 {
-	if (result == INT_MAX)
-		return (result * sign);
-	if (result > INT_MAX)
-	{
-		if (sign == -1)
-		{
-			if (result == 2147483648)
-				return (-2147483648);
-			return (*error = 1, 0);
-		}
-		return (*error = 1, -1);
-	}
-	return (result * sign);
+    t_config config;
+    t_data   data;
+	pthread_t monitor;
+
+    // Step 1: Parse & validate args
+    memset(&config, -1, sizeof(t_config));
+    if (parse_args(ac, av, &config))
+        return (1);
+
+    // Step 2: Init data
+    if (init_data(&data, &config))
+        return (1);
+
+    // Step 3: Init philosophers
+    init_philos(&data);
+
+    // Step 4: Create philosopher threads
+    for (int i = 0; i < data.config.nbr_philos; i++)
+        pthread_create(&data.philos[i].thread_id, NULL, philo_routine, &data.philos[i]);
+
+	// Step 4.1: Create monitor thread
+	pthread_create(&monitor, NULL, monitor_routine, &data);
+
+    // Step 5: Join philosopher threads (temporary for now)
+    for (int i = 0; i < data.config.nbr_philos; i++)
+        pthread_join(data.philos[i].thread_id, NULL);
+
+    // Step 6: Cleanup
+    cleanup_data(&data);
+    return (0);
 }
 
-static int	ft_atoi(const char *nptr, int *error)
-{
-	int		sign;
-	long	result;
-
-	sign = 1;
-	result = 0;
-	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
-		nptr++;
-	if (*nptr == '-')
-	{
-		sign = -1;
-		nptr++;
-	}
-	else if (*nptr == '+')
-		nptr++;
-	while (*nptr >= '0' && *nptr <= '9')
-	{
-		result = result * 10 + ((*nptr) - '0');
-		nptr++;
-	}
-	if (*nptr != '\0' && (*nptr < '0' || *nptr > '9'))
-		return (*error = 1, 0);
-	return (handle_overflow(result, sign, error));
-}
-
-int	main(int ac, char **av)
-{
-	t_philo_config	info;
-	int				error;
-
-	memset(&info, -1, sizeof(t_philo_config));
-	error = 0;
-	if (ac < 5 || ac > 6)
-	{
-		printf("Usage: ./philo <nbr_of_philosophers> <time_to_die> "
-			"<time_to_eat> <time_to_sleep> [nbr_of_meals]\n");
-		return (1);
-	}
-	else
-	{
-		info.nbr_philos = ft_atoi(av[1], &error);
-		info.time_to_die = ft_atoi(av[2], &error);
-		info.time_to_eat = ft_atoi(av[3], &error);
-		info.time_to_sleep = ft_atoi(av[4], &error);
-		if (ac == 6)
-			info.nbr_meals = ft_atoi(av[5], &error);
-	}
-	if (error || info.nbr_philos <= 0 || info.time_to_die <= 0 || info.time_to_eat <= 0
-		|| info.time_to_sleep <= 0 || (ac == 6 && info.nbr_meals <= 0))
-	{
-		printf("Error: invalid argument(s)\n");
-		return (1);
-	}
-	return (0);
-}
