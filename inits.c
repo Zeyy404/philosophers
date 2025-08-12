@@ -6,7 +6,7 @@
 /*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 15:52:34 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/11 10:24:22 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/13 00:19:13 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@ int	init_data(t_data *data, t_config *config)
 	data->config = *config;
 	data->stop_simulation = 0;
 	data->start_time = get_time_ms();
-	data->forks = malloc(sizeof(pthread_mutex_t) * config->nbr_philos);
+	data->forks = malloc(sizeof(t_fork) * config->nbr_philos);
 	if (!data->forks)
 		return (0);
 	i = 0;
 	while (i < config->nbr_philos)
 	{
-		pthread_mutex_init(&data->forks[i], NULL);
+		pthread_mutex_init(&data->forks[i].fork_mutex, NULL);
+		data->forks[i].available = 1;
 		i++;
 	}
+	pthread_mutex_init(&data->state_mutex, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
 	data->philos = malloc(sizeof(t_philo) * config->nbr_philos);
 	if (!data->philos)

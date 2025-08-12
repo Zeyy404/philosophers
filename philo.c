@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:13:36 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/11 12:32:52 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/13 00:21:29 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@ int main(int ac, char **av)
 
     if (!parse_args(ac, av, &config))
         return (1);
-    if (init_data(&data, &config))
+    if (!init_data(&data, &config))
         return (1);
     init_philos(&data);
-    for (int i = 0; i < data.config.nbr_philos; i++)
-        pthread_create(&data.philos[i].thread_id, NULL, philo_routine, &data.philos[i]);
+    for (int i = 0; i < data.config.nbr_philos; i++) {
+        if (pthread_create(&data.philos[i].thread_id, NULL, philo_routine, &data.philos[i]) != 0)
+            perror("pthread_create failed"); 
+    }
 	pthread_create(&monitor, NULL, monitor_routine, &data);
+    for (int i = 0; i < data.config.nbr_philos; i++) {
+        pthread_join(data.philos[i].thread_id, NULL); }
     pthread_join(monitor, NULL);
-    for (int i = 0; i < data.config.nbr_philos; i++)
-        pthread_join(data.philos[i].thread_id, NULL);
     // cleanup_data(&data);
     return (0);
 }

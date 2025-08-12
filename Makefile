@@ -3,7 +3,7 @@ CFLAGS:= -Wall -Werror -Wextra
 NAME:= philo
 NAME_BONUS := philo_bonus
 
-SRCS:= philo.c parse.c inits.c routines.c utils.c
+SRCS:= philo.c parse.c inits.c routines.c utils.c actions.c
 
 OBJS:= $(SRCS:.c=.o)
 

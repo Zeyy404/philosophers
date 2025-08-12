@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/11 13:37:21 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/12 23:52:57 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,20 @@ typedef struct s_config
 	int				nbr_meals;
 }					t_config;
 
+typedef struct s_fork
+{
+	pthread_mutex_t	fork_mutex;
+	int				available;
+}					t_fork;
+
 typedef struct s_philo
 {
 	int				id;
 	pthread_t		thread_id;
 	int				meals_eaten;
 	long			last_meal_time;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
+	t_fork			*left_fork;
+	t_fork			*right_fork;
 	struct s_data	*data;
 }					t_philo;
 
@@ -45,7 +51,7 @@ typedef struct s_data
 {
 	t_config		config;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
+	t_fork			*forks;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	state_mutex;
 	int				stop_simulation;
@@ -61,6 +67,10 @@ long				get_time_ms(void);
 long				elapsed_time(long start_ms);
 void				ft_usleep(long duration_ms, t_data *data);
 void				print_action(t_philo *philo, const char *action);
-void				eat(t_philo *philo);
+void				take_forks(t_philo *philo);
+void				eating(t_philo *philo);
+void				release_forks(t_philo *philo);
+void				sleeping(t_philo *philo);
+void				thinking(t_philo *philo);
 
 #endif
