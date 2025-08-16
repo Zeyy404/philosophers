@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:54:17 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/13 00:52:22 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/16 22:02:34 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	take_forks(t_philo *philo)
 		{
 			first_fork->available = 0;
 			pthread_mutex_unlock(&first_fork->fork_mutex);
-			// print_action(philo, "has taken a fork");
 			pthread_mutex_lock(&second_fork->fork_mutex);
 			if (second_fork->available == 1)
 			{
 				second_fork->available = 0;
 				pthread_mutex_unlock(&second_fork->fork_mutex);
+				print_action(philo, "has taken a fork");
 				print_action(philo, "has taken a fork");
 				return ;
 			}
@@ -54,12 +54,12 @@ void	take_forks(t_philo *philo)
 			pthread_mutex_lock(&first_fork->fork_mutex);
 			first_fork->available = 1;
 			pthread_mutex_unlock(&first_fork->fork_mutex);
-			thinking(philo);
+			usleep(1000);
 		}
 		else
 		{
 			pthread_mutex_unlock(&first_fork->fork_mutex);
-			thinking(philo);
+			usleep(1000);
 		}
 	}
 }
@@ -94,6 +94,7 @@ void	eating(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	print_action(philo, "is sleeping");
+	pthread_mutex_lock(&philo->data->state_mutex);
 	if (philo->data->stop_simulation)
 	{
 		pthread_mutex_unlock(&philo->data->state_mutex);
@@ -106,11 +107,12 @@ void	sleeping(t_philo *philo)
 void	thinking(t_philo *philo)
 {
 	print_action(philo, "is thinking");
+	pthread_mutex_lock(&philo->data->state_mutex);
 	if (philo->data->stop_simulation)
 	{
 		pthread_mutex_unlock(&philo->data->state_mutex);
 		return ;
 	}
 	pthread_mutex_unlock(&philo->data->state_mutex);
-	ft_usleep(10, philo->data);
+	ft_usleep(5, philo->data);
 }
