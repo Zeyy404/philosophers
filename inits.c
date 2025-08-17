@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 15:52:34 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/16 21:25:39 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/17 11:12:53 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	init_data(t_data *data, t_config *config)
 	{
 		pthread_mutex_init(&data->forks[i].fork_mutex, NULL);
 		data->forks[i].available = 1;
+		data->forks[i].prev_owner = 0;
 		i++;
 	}
 	pthread_mutex_init(&data->state_mutex, NULL);

@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/16 21:25:14 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/17 11:12:34 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_fork
 {
 	pthread_mutex_t	fork_mutex;
 	int				available;
+	int				prev_owner;
 }					t_fork;
 
 typedef struct s_philo
