@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:19:27 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/26 09:36:00 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/27 10:38:24 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int	init_data(t_data *data, t_config *config)
 {
 	if (!config)
 		return (0);
+    data->config = *config;
 	data->pids = malloc(sizeof(int) * config->nbr_philos);
 	if (!data->pids)
         return (0);
+    data->start_time = get_time_ms();
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_print");
 	sem_unlink("/sem_death");
@@ -36,13 +38,13 @@ int	init_data(t_data *data, t_config *config)
 	return (1);
 }
 
-int	init_philos(t_data *data, t_config *config)
+int	init_philos(t_data *data)
 {
     pid_t pid;
     int i;
 
     i = 0;
-    while (i < config->nbr_philos)
+    while (i < data->config.nbr_philos)
     {
         pid = fork();
         if (pid < 0)
@@ -52,7 +54,7 @@ int	init_philos(t_data *data, t_config *config)
         }
         if (pid == 0)
         {
-            philo_routine();
+            philo_routine(data, pid);
             exit(0);
         }
         else

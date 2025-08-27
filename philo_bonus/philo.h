@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/26 09:29:36 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/27 17:12:17 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,44 @@
 
 typedef struct s_config
 {
-	int		nbr_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		nbr_meals;
-}			t_config;
+	int				nbr_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				nbr_meals;
+}					t_config;
+
+typedef struct s_philo
+{
+	int				id;
+	int				meals_eaten;
+	long			last_meal_time;
+	struct s_data	*data;
+}					t_philo;
 
 typedef struct s_data
 {
-	int		*pids;
-	sem_t	*sem_forks;
-	sem_t	*sem_print;
-	sem_t	*sem_death;
-	sem_t	*sem_full;
-}			t_data;
+	t_config		config;
+	int				*pids;
+	long			start_time;
+	sem_t			*sem_forks;
+	sem_t			*sem_print;
+	sem_t			*sem_death;
+	sem_t			*sem_full;
+}					t_data;
 
-int			parse_args(int ac, char **av, t_config *config);
-int			init_data(t_data *data, t_config *config);
-int			init_philos(t_data *data, t_config *config);
+int					parse_args(int ac, char **av, t_config *config);
+int					init_data(t_data *data, t_config *config);
+int					init_philos(t_data *data);
+void				philo_routine(t_data *data, int id);
+long				get_time_ms(void);
+long				elapsed_time(long start_ms);
+void				ft_usleep(long duration_ms, t_data *data);
+void				print_action(t_philo *philo, const char *action);
+void				take_forks(t_philo *philo);
+void				eating(t_philo *philo);
+void				release_forks(t_philo *philo);
+void				sleeping(t_philo *philo);
+void				thinking(t_philo *philo);
 
 #endif

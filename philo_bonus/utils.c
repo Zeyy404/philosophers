@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:17:52 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/27 12:04:06 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/27 16:59:34 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,15 @@ void	ft_usleep(long duration_ms, t_data *data)
 	start = get_time_ms();
 	while (1)
 	{
-		pthread_mutex_lock(&data->state_mutex);
-		if (data->stop_simulation)
-		{
-			pthread_mutex_unlock(&data->state_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&data->state_mutex);
 		if (elapsed_time(start) >= duration_ms)
 			break ;
-		usleep(1000);
+		usleep(10);
 	}
 }
 
 void print_action(t_philo *philo, const char *action)
 {
-    pthread_mutex_lock(&philo->data->print_mutex);
-    if (!philo->data->stop_simulation)
-        printf("%ld %d %s\n", elapsed_time(philo->data->start_time), philo->id, action);
-    pthread_mutex_unlock(&philo->data->print_mutex);
+	sem_wait(philo->data->sem_print);
+    printf("%ld %d %s\n", elapsed_time(philo->data->start_time), philo->id, action);
+	sem_post(philo->data->sem_print);
 }
