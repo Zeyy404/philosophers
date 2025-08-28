@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/27 17:12:17 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/28 11:02:33 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/time.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <signal.h>
 
 typedef struct s_config
 {
@@ -57,12 +58,13 @@ int					init_philos(t_data *data);
 void				philo_routine(t_data *data, int id);
 long				get_time_ms(void);
 long				elapsed_time(long start_ms);
-void				ft_usleep(long duration_ms, t_data *data);
+void				ft_usleep(long duration_ms);
 void				print_action(t_philo *philo, const char *action);
 void				take_forks(t_philo *philo);
 void				eating(t_philo *philo);
 void				release_forks(t_philo *philo);
 void				sleeping(t_philo *philo);
 void				thinking(t_philo *philo);
+void				cleanup_data(t_data *data);
 
 #endif

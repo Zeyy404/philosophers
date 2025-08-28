@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:17:52 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/27 16:59:34 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/28 11:04:19 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ long	elapsed_time(long start_ms)
 	return (get_time_ms() - start_ms);
 }
 
-void	ft_usleep(long duration_ms, t_data *data)
+void	ft_usleep(long duration_ms)
 {
 	long	start;
 
@@ -38,9 +38,22 @@ void	ft_usleep(long duration_ms, t_data *data)
 	}
 }
 
-void print_action(t_philo *philo, const char *action)
+void	print_action(t_philo *philo, const char *action)
 {
 	sem_wait(philo->data->sem_print);
-    printf("%ld %d %s\n", elapsed_time(philo->data->start_time), philo->id, action);
+	printf("%ld %d %s\n", elapsed_time(philo->data->start_time), philo->id,
+		action);
 	sem_post(philo->data->sem_print);
+}
+
+void	cleanup_data(t_data *data)
+{
+	sem_close(data->sem_forks);
+	sem_close(data->sem_full);
+	sem_close(data->sem_death);
+	sem_close(data->sem_print);
+	sem_unlink("/sem_forks");
+	sem_unlink("/sem_print");
+	sem_unlink("/sem_death");
+	sem_unlink("/sem_full");
 }

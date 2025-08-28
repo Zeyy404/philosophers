@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:19:27 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/27 10:38:24 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/28 10:34:09 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	init_philos(t_data *data)
         }
         if (pid == 0)
         {
-            philo_routine(data, pid);
+            philo_routine(data, (i + 1));
             exit(0);
         }
         else
