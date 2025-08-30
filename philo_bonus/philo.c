@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:13:36 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/28 11:13:24 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/30 17:27:15 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void kill_philos(t_data *data)
 	i = 0;
 	while (i < data->config.nbr_philos)
 	{
-		kill(data->pids[i], SIGTERM);
+		kill(data->pids[i], SIGKILL);
 		i++;
 	}
 }
@@ -30,7 +30,6 @@ void *mointor_death(void *arg)
 	
 	data = arg;
 	sem_wait(data->sem_death);
-	kill_philos(data);
 	return (NULL);
 }
 
@@ -46,7 +45,7 @@ void *mointor_full(void *arg)
 		sem_wait(data->sem_full);
 		i++;
 	}
-	kill_philos(data);
+	sem_post(data->sem_death);
 	return (NULL);
 }
 
@@ -56,9 +55,13 @@ void monitor_philos(t_data *data)
 	pthread_t full;
 
 	pthread_create(&death, NULL, mointor_death, data);
-	pthread_create(&full, NULL, mointor_full, data);
 	pthread_join(death, NULL);
-	pthread_join(full, NULL);
+	if (data->config.nbr_meals > 0)
+	{
+		pthread_create(&full, NULL, mointor_full, data);
+		pthread_join(full, NULL);
+	}
+	kill_philos(data);
 }
 
 int	main(int ac, char **av)

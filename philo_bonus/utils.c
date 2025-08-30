@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:17:52 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/28 11:04:19 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/30 14:57:38 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_usleep(long duration_ms)
 	{
 		if (elapsed_time(start) >= duration_ms)
 			break ;
-		usleep(10);
+		usleep(1000);
 	}
 }
 

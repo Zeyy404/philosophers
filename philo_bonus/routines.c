@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 08:14:41 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/28 11:11:45 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/08/30 18:05:55 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	*monitor_routine(void *arg)
 	int		full;
 
 	philo = arg;
+	full = 0;
 	while (1)
 	{
 		usleep(1000);
-		full = 1;
 		current_time = elapsed_time(philo->data->start_time);
 		if ((current_time
 				- philo->last_meal_time) > philo->data->config.time_to_die)
@@ -33,12 +33,12 @@ static void	*monitor_routine(void *arg)
 			exit(1);
 		}
 		if (philo->data->config.nbr_meals > 0
-			&& philo->meals_eaten < philo->data->config.nbr_meals)
-			full = 0;
+			&& philo->meals_eaten == philo->data->config.nbr_meals)
+			full = 1;
 		if (full && philo->data->config.nbr_meals > 0)
 		{
 			sem_post(philo->data->sem_full);
-			exit(0);
+			return (NULL);
 		}
 	}
 	return (NULL);
@@ -65,5 +65,6 @@ void	philo_routine(t_data *data, int id)
 			break ;
 	}
 	pthread_join(mointor, NULL);
-	exit(0);
+	printf("debug: philo [%d] routine done\n", philo.id);
+	return ;
 }
