@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih < zsalih@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:33:02 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/10 16:36:48 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/02 09:45:44 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	parse_args(int ac, char **av, t_config *config)
 
 	error = 0;
 	if (ac < 5 || ac > 6)
-    {
-        printf("Usage: ./philo <nbr_of_philosophers> <time_to_die> "
-			"<time_to_eat> <time_to_sleep> [nbr_of_meals]\n");
+	{
+		printf("Usage: ./philo <nbr_of_philosophers> <time_to_die> "
+				"<time_to_eat> <time_to_sleep> [nbr_of_meals]\n");
 		return (0);
-    }
+	}
 	config->nbr_philos = ft_atoi(av[1], &error);
 	config->time_to_die = ft_atoi(av[2], &error);
 	config->time_to_eat = ft_atoi(av[3], &error);
@@ -74,12 +74,19 @@ int	parse_args(int ac, char **av, t_config *config)
 		config->nbr_meals = ft_atoi(av[5], &error);
 	else
 		config->nbr_meals = -1;
+	if (config->nbr_philos <= 1)
+	{
+		printf("0 1 has taken a fork\n");
+		usleep(config->time_to_die * 1000);
+		printf("%d 1 died\n", config->time_to_die);
+		return (0);
+	}
 	if (error || config->nbr_philos <= 0 || config->time_to_die <= 0
 		|| config->time_to_eat <= 0 || config->time_to_sleep <= 0 || (ac == 6
 			&& config->nbr_meals <= 0))
-    {
-        printf("Error: Invalid arguments.\n");
+	{
+		printf("Error: Invalid arguments.\n");
 		return (0);
-    }
+	}
 	return (1);
 }

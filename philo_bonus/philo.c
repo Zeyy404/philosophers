@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:13:36 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/02 09:16:56 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/02 13:11:21 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,19 @@ void kill_philos(t_data *data)
 void *mointor_death(void *arg)
 {
 	t_data *data;
+	int		i;
 	
 	data = arg;
+	i = 0;
 	sem_wait(data->sem_death);
+	if (data->config.nbr_meals > 0)
+	{
+		while (i < data->config.nbr_meals)
+		{
+			sem_post(data->sem_full);
+			i++;
+		}
+	}
 	return (NULL);
 }
 
@@ -40,7 +50,7 @@ void *mointor_full(void *arg)
 
 	data = arg;
 	i = 0;
-	while (i < data->config.nbr_philos)
+	while (i < data->config.nbr_meals)
 	{
 		sem_wait(data->sem_full);
 		i++;
@@ -55,11 +65,10 @@ void monitor_philos(t_data *data)
 	pthread_t full;
 
 	if (data->config.nbr_meals > 0)
-	{
 		pthread_create(&full, NULL, mointor_full, data);
-		pthread_join(full, NULL);
-	}
 	pthread_create(&death, NULL, mointor_death, data);
+	if (data->config.nbr_meals > 0)
+		pthread_join(full, NULL);
 	pthread_join(death, NULL);
 	kill_philos(data);
 }
