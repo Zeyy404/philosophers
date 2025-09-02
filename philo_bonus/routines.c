@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 08:14:41 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/30 18:05:55 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/02 09:13:28 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,5 @@ void	philo_routine(t_data *data, int id)
 			break ;
 	}
 	pthread_join(mointor, NULL);
-	printf("debug: philo [%d] routine done\n", philo.id);
-	return ;
+	exit(0);
 }
