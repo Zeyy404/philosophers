@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 08:14:41 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/02 09:13:28 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/02 13:17:45 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void	*monitor_routine(void *arg)
 
 void	philo_routine(t_data *data, int id)
 {
-	pthread_t mointor;
-	t_philo philo;
+	pthread_t	mointor;
+	t_philo		philo;
 
 	philo.id = id;
 	philo.meals_eaten = 0;
@@ -61,7 +61,8 @@ void	philo_routine(t_data *data, int id)
 		release_forks(&philo);
 		sleeping(&philo);
 		thinking(&philo);
-		if (data->config.nbr_meals > 0 && philo.meals_eaten >= data->config.nbr_meals)
+		if (data->config.nbr_meals > 0
+			&& philo.meals_eaten >= data->config.nbr_meals)
 			break ;
 	}
 	pthread_join(mointor, NULL);

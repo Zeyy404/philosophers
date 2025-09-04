@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:19:27 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/02 09:14:08 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/02 13:17:36 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	init_data(t_data *data, t_config *config)
 {
 	if (!config)
 		return (0);
-    data->config = *config;
+	data->config = *config;
 	data->pids = malloc(sizeof(int) * config->nbr_philos);
 	if (!data->pids)
-        return (0);
-    data->start_time = get_time_ms();
+		return (0);
+	data->start_time = get_time_ms();
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_print");
 	sem_unlink("/sem_death");
@@ -40,26 +40,26 @@ int	init_data(t_data *data, t_config *config)
 
 int	init_philos(t_data *data)
 {
-    pid_t pid;
-    int i;
+	pid_t	pid;
+	int		i;
 
-    i = 0;
-    while (i < data->config.nbr_philos)
-    {
-        pid = fork();
-        if (pid < 0)
-        {
-            perror("fork");
-            return (0);
-        }
-        if (pid == 0)
-        {
-            philo_routine(data, (i + 1));
-            exit(0);
-        }
-        else
-            data->pids[i] = pid;
-        i++;
-    }
-    return (1);
+	i = 0;
+	while (i < data->config.nbr_philos)
+	{
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork");
+			return (0);
+		}
+		if (pid == 0)
+		{
+			philo_routine(data, (i + 1));
+			exit(0);
+		}
+		else
+			data->pids[i] = pid;
+		i++;
+	}
+	return (1);
 }

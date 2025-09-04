@@ -6,23 +6,24 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/28 11:02:33 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/04 10:56:34 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <fcntl.h>
 # include <limits.h>
 # include <pthread.h>
 # include <semaphore.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <signal.h>
 
 typedef struct s_config
 {

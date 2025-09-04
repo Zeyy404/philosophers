@@ -6,15 +6,15 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:13:36 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/02 13:11:21 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/04 10:54:44 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void kill_philos(t_data *data)
+void	kill_philos(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->config.nbr_philos)
@@ -24,17 +24,17 @@ void kill_philos(t_data *data)
 	}
 }
 
-void *mointor_death(void *arg)
+void	*mointor_death(void *arg)
 {
-	t_data *data;
+	t_data	*data;
 	int		i;
-	
+
 	data = arg;
 	i = 0;
 	sem_wait(data->sem_death);
 	if (data->config.nbr_meals > 0)
 	{
-		while (i < data->config.nbr_meals)
+		while (i < data->config.nbr_philos)
 		{
 			sem_post(data->sem_full);
 			i++;
@@ -43,14 +43,14 @@ void *mointor_death(void *arg)
 	return (NULL);
 }
 
-void *mointor_full(void *arg)
+void	*mointor_full(void *arg)
 {
-	t_data *data;
-	int i;
+	t_data	*data;
+	int		i;
 
 	data = arg;
 	i = 0;
-	while (i < data->config.nbr_meals)
+	while (i < data->config.nbr_philos)
 	{
 		sem_wait(data->sem_full);
 		i++;
@@ -59,10 +59,10 @@ void *mointor_full(void *arg)
 	return (NULL);
 }
 
-void monitor_philos(t_data *data)
+void	monitor_philos(t_data *data)
 {
-	pthread_t death;
-	pthread_t full;
+	pthread_t	death;
+	pthread_t	full;
 
 	if (data->config.nbr_meals > 0)
 		pthread_create(&full, NULL, mointor_full, data);
