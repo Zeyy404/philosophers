@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:17:52 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/02 09:23:22 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/15 08:55:07 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,23 @@ long	elapsed_time(long start_ms)
 	return (get_time_ms() - start_ms);
 }
 
-void	ft_usleep(long duration_ms)
+void	ft_usleep(long duration_ms, t_philo *philo)
 {
 	long	start;
+	long	current_time;
 
 	start = get_time_ms();
 	while (1)
 	{
+		current_time = elapsed_time(philo->data->start_time);
+		if ((current_time
+				- philo->last_meal_time) > philo->data->config.time_to_die)
+		{
+			sem_wait(philo->data->sem_print);
+			printf("%ld %d died\n", current_time, philo->id);
+			sem_post(philo->data->sem_death);
+			exit(1);
+		}
 		if (elapsed_time(start) >= duration_ms)
 			break ;
 		usleep(1000);

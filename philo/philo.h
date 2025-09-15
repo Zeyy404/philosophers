@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/17 11:12:34 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/15 09:06:14 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ void				eating(t_philo *philo);
 void				release_forks(t_philo *philo);
 void				sleeping(t_philo *philo);
 void				thinking(t_philo *philo);
+void				cleanup_data(t_data *data);
 
 #endif

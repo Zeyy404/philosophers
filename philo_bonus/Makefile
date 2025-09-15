@@ -7,7 +7,7 @@ SRCS:= philo.c parse.c inits.c routines.c utils.c actions.c
 OBJS:= $(SRCS:.c=.o)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -pthread
 
 all: $(NAME)
 
@@ -18,7 +18,7 @@ debug: CFLAGS += -fsanitize=address -ggdb3
 debug: all
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ -pthread
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(OBJS)

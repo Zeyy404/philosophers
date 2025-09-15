@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:33:02 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/02 09:45:44 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/15 10:08:49 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ static int	ft_atoi(const char *nptr, int *error)
 	return (handle_overflow(result, sign, error));
 }
 
+static void	assign_av(int ac, char **av, t_config *config, int *error)
+{
+	config->nbr_philos = ft_atoi(av[1], error);
+	config->time_to_die = ft_atoi(av[2], error);
+	config->time_to_eat = ft_atoi(av[3], error);
+	config->time_to_sleep = ft_atoi(av[4], error);
+	if (ac == 6)
+		config->nbr_meals = ft_atoi(av[5], error);
+	else
+		config->nbr_meals = -1;
+}
+
 int	parse_args(int ac, char **av, t_config *config)
 {
 	int	error;
@@ -63,17 +75,10 @@ int	parse_args(int ac, char **av, t_config *config)
 	if (ac < 5 || ac > 6)
 	{
 		printf("Usage: ./philo <nbr_of_philosophers> <time_to_die> "
-				"<time_to_eat> <time_to_sleep> [nbr_of_meals]\n");
+			"<time_to_eat> <time_to_sleep> [nbr_of_meals]\n");
 		return (0);
 	}
-	config->nbr_philos = ft_atoi(av[1], &error);
-	config->time_to_die = ft_atoi(av[2], &error);
-	config->time_to_eat = ft_atoi(av[3], &error);
-	config->time_to_sleep = ft_atoi(av[4], &error);
-	if (ac == 6)
-		config->nbr_meals = ft_atoi(av[5], &error);
-	else
-		config->nbr_meals = -1;
+	assign_av(ac, av, config, &error);
 	if (config->nbr_philos <= 1)
 	{
 		printf("0 1 has taken a fork\n");

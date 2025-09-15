@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/04 10:56:34 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/15 08:54:03 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int					init_philos(t_data *data);
 void				philo_routine(t_data *data, int id);
 long				get_time_ms(void);
 long				elapsed_time(long start_ms);
-void				ft_usleep(long duration_ms);
+void				ft_usleep(long duration_ms, t_philo *philo);
 void				print_action(t_philo *philo, const char *action);
 void				take_forks(t_philo *philo);
 void				eating(t_philo *philo);

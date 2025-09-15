@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:54:17 by zsalih            #+#    #+#             */
-/*   Updated: 2025/08/28 09:09:18 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/15 09:01:21 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,19 @@ void	eating(t_philo *philo)
 	philo->last_meal_time = elapsed_time(philo->data->start_time);
 	philo->meals_eaten++;
 	print_action(philo, "is eating");
-	ft_usleep(philo->data->config.time_to_eat);
+	ft_usleep(philo->data->config.time_to_eat, philo);
+	if (philo->data->config.nbr_meals > 0
+		&& philo->meals_eaten >= philo->data->config.nbr_meals)
+	{
+		sem_post(philo->data->sem_full);
+		return ;
+	}
 }
 
 void	sleeping(t_philo *philo)
 {
 	print_action(philo, "is sleeping");
-	ft_usleep(philo->data->config.time_to_sleep);
+	ft_usleep(philo->data->config.time_to_sleep, philo);
 }
 
 void	thinking(t_philo *philo)
