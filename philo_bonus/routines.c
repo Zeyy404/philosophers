@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 08:14:41 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/15 08:59:30 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/24 23:07:31 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ void	philo_routine(t_data *data, int id)
 			&& philo.meals_eaten >= data->config.nbr_meals)
 			break ;
 	}
+	cleanup_data(data);
 	exit(0);
 }

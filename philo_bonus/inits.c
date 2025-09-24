@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 08:19:27 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/02 13:17:36 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/24 22:56:28 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	init_data(t_data *data, t_config *config)
 		|| data->sem_death == SEM_FAILED || data->sem_full == SEM_FAILED)
 	{
 		perror("sem_open");
+		cleanup_data(data);
 		return (0);
 	}
 	return (1);

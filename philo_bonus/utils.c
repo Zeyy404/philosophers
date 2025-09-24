@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:17:52 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/15 08:55:07 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/24 22:58:57 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_usleep(long duration_ms, t_philo *philo)
 			sem_wait(philo->data->sem_print);
 			printf("%ld %d died\n", current_time, philo->id);
 			sem_post(philo->data->sem_death);
+			cleanup_data(philo->data);
 			exit(1);
 		}
 		if (elapsed_time(start) >= duration_ms)
@@ -66,4 +67,5 @@ void	cleanup_data(t_data *data)
 	sem_unlink("/sem_print");
 	sem_unlink("/sem_death");
 	sem_unlink("/sem_full");
+	free(data->pids);
 }

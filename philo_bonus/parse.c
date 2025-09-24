@@ -6,7 +6,7 @@
 /*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:33:02 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/15 10:07:41 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/24 22:09:29 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,18 @@ int	parse_args(int ac, char **av, t_config *config)
 		return (0);
 	}
 	assign_av(ac, av, config, &error);
-	if (config->nbr_philos <= 1)
-	{
-		printf("0 1 has taken a fork\n");
-		usleep(config->time_to_die * 1000);
-		printf("%d 1 died\n", config->time_to_die);
-		return (0);
-	}
 	if (error || config->nbr_philos <= 0 || config->time_to_die <= 0
 		|| config->time_to_eat <= 0 || config->time_to_sleep <= 0 || (ac == 6
 			&& config->nbr_meals <= 0))
 	{
 		printf("Error: Invalid arguments.\n");
+		return (0);
+	}
+	if (config->nbr_philos == 1)
+	{
+		printf("0 1 has taken a fork\n");
+		usleep(config->time_to_die * 1000);
+		printf("%d 1 died\n", config->time_to_die);
 		return (0);
 	}
 	return (1);
