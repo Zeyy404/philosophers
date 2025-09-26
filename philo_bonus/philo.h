@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zsalih <zsalih@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:14:16 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/15 08:54:03 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/26 18:31:17 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void				eating(t_philo *philo);
 void				release_forks(t_philo *philo);
 void				sleeping(t_philo *philo);
 void				thinking(t_philo *philo);
+void				check_death(t_philo *philo);
 void				cleanup_data(t_data *data);
 
 #endif

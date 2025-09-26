@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zsalih <zsalih@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:17:52 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/24 22:58:57 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/26 18:32:20 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,11 @@ long	elapsed_time(long start_ms)
 void	ft_usleep(long duration_ms, t_philo *philo)
 {
 	long	start;
-	long	current_time;
 
 	start = get_time_ms();
 	while (1)
 	{
-		current_time = elapsed_time(philo->data->start_time);
-		if ((current_time
-				- philo->last_meal_time) > philo->data->config.time_to_die)
-		{
-			sem_wait(philo->data->sem_print);
-			printf("%ld %d died\n", current_time, philo->id);
-			sem_post(philo->data->sem_death);
-			cleanup_data(philo->data);
-			exit(1);
-		}
+		check_death(philo);
 		if (elapsed_time(start) >= duration_ms)
 			break ;
 		usleep(1000);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsalih <zsalih@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zsalih <zsalih@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:54:17 by zsalih            #+#    #+#             */
-/*   Updated: 2025/09/15 09:01:21 by zsalih           ###   ########.fr       */
+/*   Updated: 2025/09/26 18:35:33 by zsalih           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	release_forks(t_philo *philo)
 
 void	eating(t_philo *philo)
 {
+	check_death(philo);
 	philo->last_meal_time = elapsed_time(philo->data->start_time);
 	philo->meals_eaten++;
 	print_action(philo, "is eating");
